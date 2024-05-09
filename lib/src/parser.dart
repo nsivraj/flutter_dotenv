@@ -59,7 +59,13 @@ class Parser {
           var k = m.group(3)!;
           print("m group 3 is $k");
           print("m group 3 !_has(env, k) is: ${!_has(env, k)}");
-          if (!_has(env, k)) return String.fromEnvironment(k);
+          if (!_has(env, k)) {
+            var fromEnvVal = String.fromEnvironment(k);
+            print("Getting val fromEnv: $fromEnvVal");
+            if (fromEnvVal.length > 0) {
+              env[k] = fromEnvVal;
+            }
+          }
           return env[k]!;
         }
       });
