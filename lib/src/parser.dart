@@ -24,7 +24,8 @@ class Parser {
   }
 
   /// Parses a single line into a key-value pair.
-  Map<String, String> parseOne(String line, {Map<String, String> env = const {}}) {
+  Map<String, String> parseOne(String line,
+      {Map<String, String> env = const {}}) {
     var stripped = strip(line);
     if (!_isValid(stripped)) return {};
 
@@ -48,11 +49,15 @@ class Parser {
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
-  String interpolate(String val, Map<String, String?> env) => val.replaceAllMapped(_bashVar, (m) {
+  String interpolate(String val, Map<String, String?> env) =>
+      val.replaceAllMapped(_bashVar, (m) {
+        print("Checking bash var: $m");
         if ((m.group(1) ?? "") == "\\") {
+          print("m group 1 == \\\\");
           return m.input.substring(m.start, m.end);
         } else {
           var k = m.group(3)!;
+          print("m group 3 is $k");
           if (!_has(env, k)) return String.fromEnvironment(k);
           return env[k]!;
         }
@@ -84,5 +89,6 @@ class Parser {
   bool _isValid(String s) => s.isNotEmpty && s.contains('=');
 
   /// [ null ] is a valid value in a Dart map, but the env var representation is empty string, not the string 'null'
-  bool _has(Map<String, String?> map, String key) => map.containsKey(key) && map[key] != null;
+  bool _has(Map<String, String?> map, String key) =>
+      map.containsKey(key) && map[key] != null;
 }
