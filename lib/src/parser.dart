@@ -1,5 +1,7 @@
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
+// ignore_for_file: unused_local_variable
+
 class Parser {
   static const _singleQuot = "'";
   static final _leadingExport = RegExp(r'''^ *export ?''');
@@ -56,7 +58,7 @@ class Parser {
           print("m group 1 == \\\\");
           return m.input.substring(m.start, m.end);
         } else {
-          var k = m.group(3)!;
+          final k = m.group(3)!;
           print("m group 3 is $k");
           print("m group 3 !_has(env, k) is: ${!_has(env, k)}");
           if (!_has(env, k)) {
